@@ -86,8 +86,8 @@ jobs:
           BIN="target/${{ matrix.target }}/release/${{ env.BIN }}"
           APP="${{ env.APP_NAME }}.app"
           mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-          cp "$BIN" "$APP/Contents/MacOS/$BIN"
-          chmod +x "$APP/Contents/MacOS/$BIN"
+          cp "$BIN" "$APP/Contents/MacOS/${{ env.BIN }}"
+          chmod +x "$APP/Contents/MacOS/${{ env.BIN }}"
           cat > "$APP/Contents/Info.plist" <<'PLIST'
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
