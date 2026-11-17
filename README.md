@@ -62,3 +62,7 @@ cargo build --release
 ```
 
 > 无头 CI 中 AppKit 窗口无法交互，冒烟测试仅验证进程能启动并维持事件循环；GUI 交互需在真实桌面验证。
+
+## 会话记录
+
+完整的用户指令时间线、遇到的问题与修复方式、交付物清单及关键命令，见 [`docs/SESSION_SUMMARY.md`](docs/SESSION_SUMMARY.md)。
