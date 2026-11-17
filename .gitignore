@@ -1,0 +1,11 @@
+# Rust build artifacts
+target/
+
+# nsh dev host generated config
+.nsh/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
