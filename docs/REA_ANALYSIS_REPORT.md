@@ -123,7 +123,42 @@
 
 ## 6. 局限与说明
 
-- 静态分析只观察到导入表、资源表、字符串表；未运行原程序，未做动态行为验证。
-- Ghidra 深度函数级反编译未完成：Ghidra 12.2 安装包（543 MB）通过当前 7890 代理下载 GitHub Release CDN 时反复出现 SSL 握手失败（`SSL_ERROR_SYSCALL`），无法取得完整引擎。当前复刻基于 REA 的 PE 导入表/资源表分析 + 全文件字符串/端点提取 + UI 文案表 + 安装包位图，已足以还原界面与信息架构；函数级伪代码属于可选的进一步分析。
+- 静态分析；未运行原程序，未做动态行为验证。
 - 复刻的是界面与信息架构骨架，不含与真实 LED 播放盒通信的私有协议实现。
 - 本分析用于合法互操作与学习；不得用于规避授权或侵犯原厂商权益。
+
+## 7. 深度反编译（Ghidra 12.2，后续补做完成）
+
+先前代理 SSL 失败已解决：改用 `curl -L`（跟随 302 至 release-assets CDN）+ 7890 代理全新下载，成功取得 543 MB 安装包；另装 Temurin JDK 25，并从源码编译 macOS arm64 原生反编译器（`src/decompile/cpp` 的 `make ghidra_opt`，输出 `os/mac_arm_64/decompile`，Mach-O arm64）。因宿主限制 `ps`（REA 的进程准入检查 `baseline_unavailable`），改为直接调用 `analyzeHeadless` + 自定义 post-script，成功完成深度分析。
+
+**产物**（`rea-analysis/ghidra-decompiled/`）：
+
+| 项 | 结果 |
+|---|---|
+| 识别函数总数 | **3,158** |
+| 恢复出符号名/类签名的函数 | **1,480**（C 伪代码中含明确类名者 1,404） |
+| 成功反编译为 C 伪代码 | **2,026** 个函数（0 失败） |
+| `functions.tsv` | 函数名 / 入口地址 / 大小 / 原型 |
+| `c/*.c` | 逐函数 Ghidra C 伪代码 |
+
+**关键发现（函数名由 RTTI/MFC 符号恢复，非猜测）：**
+
+- 类体系：`CConfigInfo`、`CServerData`、`CConfigSaveAndLoad`、`CCloudPublishDetailInfo`、`CCloudPublishCmdDetailInfo`、`CSchedulePathList`、`CProgramPathList`、`CModuleLanguageTrans`、`IDataManager`。
+- 配置/凭据：`CConfigInfo::{GetServerUserName,GetPlayerMasterPsw,SetBasicPassword,GetBasicPassword,SetPlayerMasterPsw,GetPswInfoCfg}`；自动登录 `IsAutoLogin/SetIsAutoLogin`；记住密码 `GetIsRememberPassword`；AP 弱密码检测 `IsWeakApPsw`。
+- 服务器：`CServerData::{GetServerAddr,GetServerPassword,AddExtraServer,SetTestServer,GetUServer,GetLocalServer,GetFtpServer}`；HTTP 配置 `GetHttpMode/GetHttpProtocol/GetHttpRootPath`。
+- 加密：`GetHasEncryption/SetHasEncryption`、`SetOpenEncryption`、`SetLanEncryptionHeader/GetLanEncryptionHeader`（局域网加密头）、`GetLanEncryptionFilePath`。
+- 云发布：`SetCloudPublishInfo`、`CCloudPublishDetailInfo`、`CCloudPublishCmdDetailInfo` —— 印证云端发布功能。
+- 目录布局：`GetPlayerMasterConfigDir/ProgramDir/ScheduleDir`、`GetUserConfigPath/UserInfoConfigPath/UserLanDataConfigPath`。
+- 最大函数 `FUN_00408090`（468 行）：涉及 `CModuleLanguageTrans` + `IDataManager` + `HDC` 绘制，位于多语言/界面渲染路径。
+
+示例证据（`GetServerAddr`，MFC 人可读签名被还原）：
+
+```c
+/* public: class ATL::CStringT<wchar_t,...> __thiscall CServerData::GetServerAddr(void) */
+undefined4 __thiscall CServerData::GetServerAddr(CServerData *this) {
+    Ordinal_280(this + 8, 0);   // 从对象偏移 0x8 取服务器地址成员
+    return in_stack_00000004;
+}
+```
+
+> 说明：Ghidra 引擎本身全部检查通过；仅 REA 的封装在此宿主因 `ps` 受限无法调用，故直接驱动引擎。函数级结果仅用于合法互操作与界面复刻研究。

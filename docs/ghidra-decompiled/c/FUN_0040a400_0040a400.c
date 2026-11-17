@@ -1,0 +1,86 @@
+
+undefined4 __fastcall FUN_0040a400(undefined4 param_1)
+
+{
+  int *piVar1;
+  undefined1 local_54 [4];
+  undefined1 local_50 [4];
+  undefined1 local_4c [4];
+  undefined1 local_48 [4];
+  undefined1 local_44 [4];
+  undefined1 local_40 [4];
+  undefined1 local_3c [4];
+  undefined1 local_38 [4];
+  undefined1 local_34 [4];
+  undefined1 local_30 [4];
+  undefined1 local_2c [4];
+  undefined1 local_28 [4];
+  int local_24;
+  int local_20;
+  int local_1c;
+  int local_18;
+  int local_14;
+  void *local_10;
+  undefined1 *puStack_c;
+  undefined4 local_8;
+  
+  local_8 = 0xffffffff;
+  puStack_c = &LAB_00446169;
+  local_10 = ExceptionList;
+  ExceptionList = &local_10;
+  FUN_0041c230();
+  local_8 = 0;
+  FUN_0041c4a0(&local_20);
+  local_8._0_1_ = 1;
+  FUN_0041c590();
+  local_8._0_1_ = 2;
+  FUN_0041c7d0(&local_18);
+  local_8._0_1_ = 3;
+  FUN_0041c880((uint)&local_14);
+  local_8._0_1_ = 4;
+  piVar1 = (int *)FUN_00406f40(local_54,L"OS :   ",&local_24);
+  local_8._0_1_ = 5;
+  piVar1 = (int *)FUN_00405ae0(local_50,piVar1,(short *)&DAT_0044df50);
+  local_8._0_1_ = 6;
+  piVar1 = (int *)FUN_00405ae0(local_4c,piVar1,L"CPU Type:   ");
+  local_8._0_1_ = 7;
+  piVar1 = (int *)FUN_0040c1f0(local_48,piVar1,&local_20);
+  local_8._0_1_ = 8;
+  piVar1 = (int *)FUN_00405ae0(local_44,piVar1,(short *)&DAT_0044df50);
+  local_8._0_1_ = 9;
+  piVar1 = (int *)FUN_00405ae0(local_40,piVar1,L"CPU Usage:   ");
+  local_8._0_1_ = 10;
+  piVar1 = (int *)FUN_0040c1f0(local_3c,piVar1,&local_1c);
+  local_8._0_1_ = 0xb;
+  piVar1 = (int *)FUN_00405ae0(local_38,piVar1,(short *)&DAT_0044df50);
+  local_8._0_1_ = 0xc;
+  piVar1 = (int *)FUN_00405ae0(local_34,piVar1,L"Memory:   ");
+  local_8._0_1_ = 0xd;
+  piVar1 = (int *)FUN_0040c1f0(local_30,piVar1,&local_18);
+  local_8._0_1_ = 0xe;
+  piVar1 = (int *)FUN_00405ae0(local_2c,piVar1,(short *)&DAT_0044df50);
+  local_8._0_1_ = 0xf;
+  piVar1 = (int *)FUN_00405ae0(local_28,piVar1,L"PMVersion: ");
+  local_8 = CONCAT31(local_8._1_3_,0x10);
+  FUN_0040c1f0(param_1,piVar1,&local_14);
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  Ordinal_1042();
+  ExceptionList = local_10;
+  return param_1;
+}
+

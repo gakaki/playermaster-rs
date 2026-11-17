@@ -1,0 +1,18 @@
+
+void __fastcall FUN_00419a80(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
+
+{
+  undefined4 *puVar1;
+  
+  if (param_1 != param_2) {
+    do {
+      *param_3 = *param_1;
+      puVar1 = param_1 + 1;
+      param_1 = param_1 + 2;
+      param_3[1] = *puVar1;
+      param_3 = param_3 + 2;
+    } while (param_1 != param_2);
+  }
+  return;
+}
+

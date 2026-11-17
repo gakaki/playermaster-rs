@@ -1,0 +1,38 @@
+
+bool __thiscall FUN_0042b480(void *this,undefined4 param_1,int param_2)
+
+{
+  uint *puVar1;
+  uint uVar2;
+  undefined4 uVar3;
+  int iVar4;
+  bool bVar5;
+  void *local_10;
+  undefined1 *puStack_c;
+  undefined4 local_8;
+  
+  puStack_c = &LAB_00447e58;
+  local_10 = ExceptionList;
+  uVar2 = DAT_0046400c ^ (int)register0x00000010 - 4U;
+  ExceptionList = &local_10;
+  local_8 = 0;
+  CGridCellBase::EndEdit(this);
+  puVar1 = *(uint **)((int)this + -4);
+  if (((*puVar1 < 0x80) || (puVar1[0x1f] == 0)) || (local_8 = 0, param_2 == 0)) {
+    bVar5 = false;
+  }
+  else {
+    iVar4 = param_2;
+    (*(code *)**(undefined4 **)(*(int *)(*(int *)(param_2 + 4) + 4) + param_2 + 4))(param_2,uVar2);
+    uVar3 = FUN_00422400(iVar4);
+    iVar4 = (*(code *)puVar1[0x1f])(puVar1,param_1,uVar3);
+    bVar5 = iVar4 != 0;
+  }
+  local_8 = 0xffffffff;
+  if (param_2 != 0) {
+    (**(code **)(*(int *)(*(int *)(*(int *)(param_2 + 4) + 4) + 4 + param_2) + 4))();
+  }
+  ExceptionList = local_10;
+  return bVar5;
+}
+
